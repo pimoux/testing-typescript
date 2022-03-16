@@ -1,18 +1,20 @@
+type Post = {userId: number, id: number, title: string, body: string};
+
 const postsContainerElt = <HTMLDivElement>document.querySelector('#posts');
 const fetchButtonElt = <HTMLButtonElement>document.querySelector("#fetch-button");
 const noRemainingPostsElt = <HTMLParagraphElement>document.querySelector("#no-remaining-posts");
 const usernames: string[] = ["Pimoux", "Auraah", "Eliminate", "Swarmsii", "Lothus", "DaZeRo", "AMDuskia", "Hikanari", "Cribob", "Lochie"];
-let data: {userId: number, id: number, title: string, body: string}[] = [];
-let showingData: {userId: number, id: number, title: string, body: string}[] = [];
+let data: Array<Post> = [];
+let showingData: Array<Post> = [];
 let postsDisplayed: number = 0;
 let isPostsFetched: boolean = false;
 
-const fetchPosts = () =>  {
-    return fetch('https://jsonplaceholder.typicode.com/posts')
-    .then(res => res.json())
+const fetchPosts = async () =>  {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+    return await res.json();
 }
 
-const updatePosts = (data: {userId: number, id: number, title: string, body: string}[]) => {
+const updatePosts = (data: Post[]) => {
     data.forEach(obj => {
         let div = <HTMLDivElement>document.createElement('div');
         div.classList.add("post");
